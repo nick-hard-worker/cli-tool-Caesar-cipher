@@ -1,0 +1,22 @@
+{
+  "name": "cli-tool-caesar-cipher",
+  "version": "1.0.0",
+  "description": "solution of RS School task NodeJS 2020Q3",
+  "main": "my_caesar_cli.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nick-hard-worker/cli-tool-Caesar-cipher.git"
+  },
+  "author": "nick-hard-worker",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nick-hard-worker/cli-tool-Caesar-cipher/issues"
+  },
+  "homepage": "https://github.com/nick-hard-worker/cli-tool-Caesar-cipher#readme",
+  "dependencies": {
+    "commander": "^6.1.0"
+  }
+}
