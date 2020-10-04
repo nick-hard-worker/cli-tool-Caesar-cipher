@@ -54,6 +54,8 @@ process.stdin.on('data', function (data) { console.log("this were typed: \n" + s
 
 
 function shiftString(str, shiftNum) {
+  if (shiftNum < 0) shiftNum = shiftNum + 26;
+
   return str
     .split('')
     .map(char => {
