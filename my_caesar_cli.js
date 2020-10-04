@@ -3,7 +3,8 @@
 const fs = require('fs');
 const { pipeline } = require('stream');
 const { Transform } = require('stream');
-var args = require('./parseArgs.js');
+const args = require('./parseArgs.js'); // get cli options
+const shiftString = require('./stringShifter.js') //function-shifter for string
 
 let input_stream;
 if (args.input) input_stream = fs.createReadStream(args.input)
@@ -35,22 +36,3 @@ pipeline(
     }
   }
 );
-
-function shiftString(str, shiftNum) {
-  const AbcLength = 26;
-  if (shiftNum < 0) shiftNum = shiftNum + AbcLength;
-
-  return str
-    .split('')
-    .map(char => {
-      if (!/^[a-z]$/i.test(char)) return char; // check symbol for [a-zA-Z]
-
-      // if letter is uppercase (65 -code UTF8 for 'A'):
-      if (char === char.toUpperCase())
-        return String.fromCharCode((char.charCodeAt() + shiftNum - 65) % AbcLength + 65);
-
-      //else lowercase letters (97 -code UTF8 for 'a'):
-      return String.fromCharCode((char.charCodeAt() + shiftNum - 97) % AbcLength + 97);
-    })
-    .join('');
-}
