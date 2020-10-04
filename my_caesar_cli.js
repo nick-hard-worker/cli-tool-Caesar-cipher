@@ -1,8 +1,9 @@
 'use strict'
 
 const commander = require('commander');
-const { pipeline } = require('stream');
 const fs = require('fs');
+const { pipeline } = require('stream');
+const { Transform } = require('stream');
 
 commander
   .storeOptionsAsProperties(false)
@@ -24,50 +25,55 @@ function handleShiftOption(value, previous) {
 }
 
 const args = commander.opts();
+if (args.action === 'decode') args.shift = -args.shift
 console.log(args);
 
-const input_stream = (args.input) ?
-  fs.createReadStream('input.txt') :
-  process.stdin;
+let input_stream;
+if (args.input) input_stream = fs.createReadStream(args.input)
+else {
+  input_stream = process.stdin;
+  console.log(`Please, type your massage for ${args.action}`);
+}
 
 const output_stream = (args.output) ?
-  fs.createWriteStream('output.txt') :
+  fs.createWriteStream(args.output) :
   process.stdout;
 
-process.stdin.resume();
-console.log('Enter the data to be displayed ');
-process.stdin.on('data', function (data) { console.log("this were typed: \n" + shiftString(data.toString(), args.shift)) })
+const shiftStream = new Transform({
+  transform(chunk, encoding, callback) {
+    this.push(shiftString(chunk.toString(), args.shift));
+    callback();
+  }
+});
 
-// pipeline(
-//   input_stream,
-//   zlib.createGzip(),
-//   output_stream,
-//   (err) => {
-//     if (err) {
-//       console.error('Pipeline failed.', err);
-//     } else {
-//       console.log('Pipeline succeeded.');
-//     }
-//   }
-// );
-
-
+pipeline(
+  input_stream,
+  shiftStream,
+  output_stream,
+  (err) => {
+    if (err) {
+      console.error('Pipeline failed.', err);
+    } else {
+      console.log('Pipeline succeeded.');
+    }
+  }
+);
 
 function shiftString(str, shiftNum) {
-  if (shiftNum < 0) shiftNum = shiftNum + 26;
+  const AbcLength = 26;
+  if (shiftNum < 0) shiftNum = shiftNum + AbcLength;
 
   return str
     .split('')
     .map(char => {
-      if (/^[a-z]$/i.test(char))
-        // if letter is uppercase then add uppercase letters
-        if (char === char.toUpperCase()) {
-          return String.fromCharCode((char.charCodeAt() + shiftNum - 65) % 26 + 65);
-        } else {
-          //else lowercase letters:
-          return String.fromCharCode((char.charCodeAt() + shiftNum - 97) % 26 + 97);
-        }
-      return char; // symbol is not [a-zA-Z]
+      if (!/^[a-z]$/i.test(char)) return char; // check symbol for [a-zA-Z]
+
+      // if letter is uppercase (65 -code UTF8 for 'A'):
+      if (char === char.toUpperCase())
+        return String.fromCharCode((char.charCodeAt() + shiftNum - 65) % AbcLength + 65);
+
+      //else lowercase letters (97 -code UTF8 for 'a'):
+      return String.fromCharCode((char.charCodeAt() + shiftNum - 97) % AbcLength + 97);
     })
     .join('');
 }
