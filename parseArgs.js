@@ -1,6 +1,8 @@
 'use strict'
 
 const commander = require('commander');
+const path = require('path');
+const fs = require('fs');
 
 commander
   .storeOptionsAsProperties(false)
@@ -8,8 +10,8 @@ commander
   .version('1.0.0', '-v, --version', 'output the current version')
   .requiredOption('-a, --action <action>', 'an action "encode" or "decode"', handleActionOption)
   .requiredOption('-s, --shift <number>', 'a shift of the cipher', handleShiftOption)
-  .option('-i, --input <input file>', 'specify an input file')
-  .option('-o, --output  <output file>', 'specify an output file')
+  .option('-i, --input <input file>', 'specify an input file', handleInputOption)
+  .option('-o, --output  <output file>', 'specify an output file', handleOutputOption)
   .parse(process.argv);
 
 function handleActionOption(value, previous) {
@@ -25,6 +27,35 @@ function handleShiftOption(value, previous) {
     process.exit(1);
   }
   return shift;
+}
+
+function handleInputOption(value, previous) {
+  // console.log(__dirname + '\\' + value);
+  const fullPath = __dirname + path.sep + value;
+
+  try {
+    fs.accessSync(fullPath, fs.constants.R_OK);
+    // console.log('can read input');
+    return value
+  } catch (err) {
+    console.error(`No access to input file ${fullPath}`);
+    console.error('Please create input file manually');
+    process.exit(1);
+  }
+}
+
+function handleOutputOption(value, previous) {
+  const fullPath = __dirname + path.sep + value;
+
+  try {
+    fs.accessSync(fullPath, fs.constants.W_OK);
+    // console.log('can write output');
+    return value
+  } catch (err) {
+    console.error(`No access to output file ${fullPath}`);
+    console.error('Please create output file manually');
+    process.exit(1);
+  }
 }
 
 const args = commander.opts();

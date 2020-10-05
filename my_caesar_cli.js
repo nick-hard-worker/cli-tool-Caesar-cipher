@@ -14,7 +14,7 @@ else {
 }
 
 const output_stream = (args.output) ?
-  fs.createWriteStream(args.output) :
+  fs.createWriteStream(args.output, { flags: 'a' }) :
   process.stdout;
 
 const shiftStream = new Transform({
