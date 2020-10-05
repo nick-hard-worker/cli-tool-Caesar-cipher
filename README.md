@@ -4,7 +4,7 @@ Solution for [task#1](https://github.com/rolling-scopes-school/nodejs-course-tem
 #### Install:
 ```
  git clone https://github.com/nick-hard-worker/cli-tool-Caesar-cipher.git
- cd task1
+ cd cli-tool-Caesar-cipher\task1
  npm install
 ```
 
