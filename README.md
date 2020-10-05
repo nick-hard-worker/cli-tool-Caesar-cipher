@@ -5,6 +5,7 @@ Solution for [task#1](https://github.com/rolling-scopes-school/nodejs-course-tem
 ```
  git clone https://github.com/nick-hard-worker/cli-tool-Caesar-cipher.git
  cd task1
+ npm install
 ```
 
 #### Usage:
