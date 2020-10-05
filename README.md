@@ -1,14 +1,14 @@
-## cli-tool-Caesar-cipher
+# cli-tool-Caesar-cipher
 Solution for [task#1](https://github.com/rolling-scopes-school/nodejs-course-template/blob/master/TASKS.md#task-1-caesar-cipher-cli-tool) RS School, NodeJS course
 
-#### Install:
+## Install:
 ```
  git clone https://github.com/nick-hard-worker/cli-tool-Caesar-cipher.git
  cd cli-tool-Caesar-cipher\task1
  npm install
 ```
 
-#### Usage:
+## Usage:
 ```
  my_caesar_cli [options]
 ```
@@ -20,7 +20,7 @@ Options:
   -o, --output  \<output file> specify an output file.  If option is absent result will be in the stdout
   -h, --help  display help for command
 
-##### Example:
+### Example:
 ```
 $ node my_caesar_cli -a encode -s 7 -i "./input.txt" -o "./output.txt"
 $ node my_caesar_cli --action encode --shift 7 --input plain.txt --output encoded.txt
