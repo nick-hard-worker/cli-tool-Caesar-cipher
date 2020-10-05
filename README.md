@@ -1,6 +1,12 @@
 ## cli-tool-Caesar-cipher
 Solution for [task#1](https://github.com/rolling-scopes-school/nodejs-course-template/blob/master/TASKS.md#task-1-caesar-cipher-cli-tool) RS School, NodeJS course
 
+#### Install:
+```
+ git clone https://github.com/nick-hard-worker/cli-tool-Caesar-cipher.git
+ cd task1
+```
+
 #### Usage:
 ```
  my_caesar_cli [options]
@@ -9,8 +15,8 @@ Solution for [task#1](https://github.com/rolling-scopes-school/nodejs-course-tem
 Options:
   -a, --action \<action>  required, an action "encode" or "decode"
   -s, --shift \<number>  required, a shift of the cipher
-  -i, --input \<input file>  specify an input file. If absent used command line for input text
-  -o, --output  \<output file> specify an output file.  If absent used command line for output text
+  -i, --input \<input file>  specify an input file. If option is absent use command line for input text
+  -o, --output  \<output file> specify an output file.  If option is absent result will be in the stdout
   -h, --help  display help for command
 
 ##### Example:
