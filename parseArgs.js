@@ -1,7 +1,6 @@
 'use strict'
 
 const commander = require('commander');
-const path = require('path');
 const fs = require('fs');
 
 commander
@@ -30,29 +29,24 @@ function handleShiftOption(value, previous) {
 }
 
 function handleInputOption(value, previous) {
-  // console.log(__dirname + '\\' + value);
-  const fullPath = __dirname + path.sep + value;
-
   try {
-    fs.accessSync(fullPath, fs.constants.R_OK);
+    fs.accessSync(value, fs.constants.R_OK);
     // console.log('can read input');
     return value
   } catch (err) {
-    console.error(`No access to input file ${fullPath}`);
+    console.error(`No access to input file ${value}`);
     console.error('Please create input file manually');
     process.exit(1);
   }
 }
 
 function handleOutputOption(value, previous) {
-  const fullPath = __dirname + path.sep + value;
-
   try {
-    fs.accessSync(fullPath, fs.constants.W_OK);
+    fs.accessSync(value, fs.constants.W_OK);
     // console.log('can write output');
     return value
   } catch (err) {
-    console.error(`No access to output file ${fullPath}`);
+    console.error(`No access to output file ${value}`);
     console.error('Please create output file manually');
     process.exit(1);
   }
